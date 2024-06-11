@@ -7,7 +7,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/MERN_Authentication");
+mongoose.connect("mongodb://localhost:27017/MERN_Authentication", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -27,6 +30,9 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+
+  console.log("Received registration data:", req.body); 
+  
   RegistrarModel.create(req.body)
     .then((Registrars) => res.json(Registrars))
     .catch((err) => res.json(err));
